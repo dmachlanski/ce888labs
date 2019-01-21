@@ -3,20 +3,32 @@ matplotlib.use('Agg')
 import pandas as pd
 import seaborn as sns
 import numpy as np
+from random import choices
 
 
-def boostrap(sample, sample_size, iterations):
-	# <---INSERT YOUR CODE HERE--->
+def bootstrap(sample, sample_size, iterations):
+
+	new_samples = [choices(sample, k=sample_size) for _ in range(iterations)]
+
+	data_mean = np.mean(new_samples)
+
+	iter_mean = np.mean(new_samples, axis=1)
+
+	lower = np.percentile(iter_mean, 2.5)
+
+	upper = np.percentile(iter_mean, 97.5)
+
 	return data_mean, lower, upper
 
 
 if __name__ == "__main__":
+
 	df = pd.read_csv('./salaries.csv')
 
 	data = df.values.T[1]
 	boots = []
 	for i in range(100, 100000, 1000):
-		boot = boostrap(data, data.shape[0], i)
+		boot = bootstrap(data, data.shape[0], i)
 		boots.append([i, boot[0], "mean"])
 		boots.append([i, boot[1], "lower"])
 		boots.append([i, boot[2], "upper"])
@@ -33,7 +45,3 @@ if __name__ == "__main__":
 
 	#print ("Mean: %f")%(np.mean(data))
 	#print ("Var: %f")%(np.var(data))
-	
-
-
-	

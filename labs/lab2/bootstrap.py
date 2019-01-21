@@ -6,7 +6,7 @@ import numpy as np
 from random import choices
 
 
-def bootstrap(sample, sample_size, iterations):
+def bootstrap(sample, sample_size, iterations, ci):
 
 	new_samples = [choices(sample, k=sample_size) for _ in range(iterations)]
 
@@ -14,9 +14,11 @@ def bootstrap(sample, sample_size, iterations):
 
 	iter_mean = np.mean(new_samples, axis=1)
 
-	lower = np.percentile(iter_mean, 2.5)
+	lower_q = (100.0-ci)/2.0
+	lower = np.percentile(iter_mean, lower_q)
 
-	upper = np.percentile(iter_mean, 97.5)
+	upper_q = ci+lower_q
+	upper = np.percentile(iter_mean, upper_q)
 
 	return data_mean, lower, upper
 
@@ -28,7 +30,7 @@ if __name__ == "__main__":
 	data = df.values.T[1]
 	boots = []
 	for i in range(100, 100000, 1000):
-		boot = bootstrap(data, data.shape[0], i)
+		boot = bootstrap(data, data.shape[0], i, 95.0)
 		boots.append([i, boot[0], "mean"])
 		boots.append([i, boot[1], "lower"])
 		boots.append([i, boot[2], "upper"])

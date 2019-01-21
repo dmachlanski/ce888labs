@@ -52,7 +52,7 @@ if __name__ == "__main__":
 	df_veh = pd.read_csv('./vehicles.csv')
 
 	df_old_veh = df_veh['Current fleet'].values
-	df_new_veh = df_veh['New Fleet'].values
+	df_new_veh = df_veh['New Fleet'].dropna().values
 
 	boots = []
 	for i in range(100, 100000, 1000):

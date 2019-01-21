@@ -1,0 +1,15 @@
+Index(['Current fleet', 'New Fleet'], dtype='object')
+249
+79
+Current fleet:
+Mean: 20.144578
+Median: 19.000000
+Var: 40.983113
+std: 6.401805
+MAD: 4.000000
+New fleet:
+Mean: 30.481013
+Median: 32.000000
+Var: 36.831918
+std: 6.068931
+MAD: 4.000000

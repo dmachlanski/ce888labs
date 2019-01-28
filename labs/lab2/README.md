@@ -30,7 +30,7 @@ Second part aimed at implementing the bootstrap function (bootstrap.py) and then
 
 ![logo](./bootstrap_confidence_salaries.png?raw=true)
 
-Which, more or less, looks similar to the chart presented during the lecture. Thus, the implemented bootstrap function probably works as expected. Also, as inticipated, all three measures, namely mean and its upper and lower bounds, look to be more stable as the number of bootstrap iterations increases.
+Which, more or less, looks similar to the chart presented during the lecture. Thus, the implemented bootstrap function probably works as expected. Also, as anticipated, all three measures, namely mean and its upper and lower bounds, look to be more stable as the number of bootstrap iterations increases.
 
 Next step involved applying the same technique to vehicles data in order to find upper and lower bounds of the mean of both fleets. The two charts below demonstrate results achieved for current and new fleets respectively.
 

@@ -17,6 +17,7 @@
 
 from math import *
 import random
+import pandas as pd
 
 class GameState:
     """ A state of the game, i.e. the game board. These are the only functions which are
@@ -355,38 +356,60 @@ def UCT(rootstate, itermax, verbose = False):
             node = node.parentNode
 
     # Output some information about the tree - can be omitted
-    if (verbose): print(rootnode.TreeToString(0))
-    else: print(rootnode.ChildrenToString())
+    #if (verbose): print(rootnode.TreeToString(0))
+    #else: print(rootnode.ChildrenToString())
 
     return sorted(rootnode.childNodes, key = lambda c: c.visits)[-1].move # return the move that was most visited
                 
-def UCTPlayGame():
+def UCTPlayGame(verbose = False):
     """ Play a sample game between two UCT players where each player gets a different number 
         of UCT iterations (= simulations = tree nodes).
     """
     # state = OthelloState(4) # uncomment to play Othello on a square board of the given size
-    # state = OXOState() # uncomment to play OXO
-    state = NimState(15) # uncomment to play Nim with the given number of starting chips
+    state = OXOState() # uncomment to play OXO
+    # state = NimState(15) # uncomment to play Nim with the given number of starting chips
+
+    states = []
+
     while (state.GetMoves() != []):
-        print(str(state))
+        if(verbose):
+            print(str(state))
+
         if state.playerJustMoved == 1:
             m = UCT(rootstate = state, itermax = 1000, verbose = False) # play with values for itermax and verbose = True
         else:
-            m = UCT(rootstate = state, itermax = 100, verbose = False)
-        print("Best Move: " + str(m) + "\n")
+            m = UCT(rootstate = state, itermax = 1000, verbose = False)
+        
+        if(verbose):
+            print("Best Move: " + str(m) + "\n")
+
+        states.append(state.board + [3-state.playerJustMoved, m])
+
         state.DoMove(m)
-    if state.GetResult(state.playerJustMoved) == 1.0:
-        print("Player " + str(state.playerJustMoved) + " wins!")
-    elif state.GetResult(state.playerJustMoved) == 0.0:
-        print("Player " + str(3 - state.playerJustMoved) + " wins!")
-    else: print("Nobody wins!")
+
+    if(verbose):
+        if state.GetResult(state.playerJustMoved) == 1.0:
+            print("Player " + str(state.playerJustMoved) + " wins!")
+        elif state.GetResult(state.playerJustMoved) == 0.0:
+            print("Player " + str(3 - state.playerJustMoved) + " wins!")
+        else: print("Nobody wins!")
+
+    return states
 
 if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players. 
     """
-    UCTPlayGame()
+    states = []
 
-            
-                          
-            
+    for i in range(10000):
+        game = UCTPlayGame()
+        states.append(game[random.randrange(len(game))])
 
+        if(i%100 == 0):
+            print(f"Game {i}")
+
+
+    df = pd.DataFrame(states, columns=['Cell0','Cell1','Cell2','Cell3','Cell4','Cell5','Cell6','Cell7','Cell8','Player','Move'])
+    df.to_csv('data.csv', index=False)
+
+    

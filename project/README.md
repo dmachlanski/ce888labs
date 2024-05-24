@@ -14,3 +14,6 @@ The initial training [data](data.csv) have been generated using the [python scri
 - Folder "final_results" contains only those experimental results used in the final report
 - Folder "images" contains all the plots produced for the report purposes
 - "Analyse results" and "Knowledge extraction" notebooks were used to analyse experiments and produce plots
+
+## Final report
+See report.pdf.
